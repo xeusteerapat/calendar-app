@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import EventForm from './EventForm';
 
 const AddEvent = () => {
@@ -17,8 +18,6 @@ const AddEvent = () => {
     warning: '#f0ad4e',
     danger: '#d9534f'
   };
-
-  const closeModal = () => {};
 
   const inputChange = e => {
     setEventName(e.target.value);
@@ -51,7 +50,47 @@ const AddEvent = () => {
     }
   };
 
-  const createEventType = () => {};
+  const createEventType = () => {
+    const event = setEvent(1);
+    console.log(event);
+    reset();
+  };
+
+  const reset = () => {
+    setColor('');
+    setEventName('');
+    setCheckbox(false);
+    setShowtime(false);
+    setStartDate(new Date());
+    setEndDate(new Date());
+  };
+
+  const setEvent = id => {
+    let start = '';
+    let end = '';
+    if (!checkbox) {
+      start = `${moment(startDate).format()}`;
+      end = `${moment(endDate).format()}`;
+    } else {
+      start = `${moment(startDate).format('YYYY-MM-DD')}`;
+      end = `${moment(endDate).format('YYYY-MM-DD')}`;
+    }
+
+    const event = {
+      id,
+      title: eventName,
+      start,
+      end,
+      bgColor: color,
+      backgroundColor: colorObj[color]
+    };
+
+    return event;
+  };
+
+  const closeModal = () => {
+    reset();
+  };
 
   return (
     <div>
@@ -71,7 +110,6 @@ const AddEvent = () => {
         colors={colors}
         handleColorChange={handleColorChange}
         eventType={createEventType}
-        colorObj={colorObj}
         buttonText="Save"
       />
     </div>

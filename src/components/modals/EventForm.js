@@ -19,8 +19,7 @@ const EventForm = props => {
     colors,
     handleColorChange,
     eventType,
-    buttonText,
-    colorObj
+    buttonText
   } = props;
   return (
     <div>
