@@ -27,7 +27,7 @@ const EventForm = props => {
       <div id={modalId} className="modal fade" tabIndex="-1" role="dialog">
         <div className="modal-dialog" role="document">
           <div className="modal-content">
-            <div className="modal-header">
+            <div className="modal-header bg-secondary">
               <h5 className="modal-title">{title}</h5>
               <button
                 type="button"
@@ -39,7 +39,7 @@ const EventForm = props => {
                 X
               </button>
             </div>
-            <div className="modal-body p-3">
+            <div className="modal-body p-3 bg-secondary">
               <form>
                 <div className="form-group">
                   <label htmlFor="" className="control-label">
@@ -75,8 +75,8 @@ const EventForm = props => {
                         <DatePicker
                           className="form-control"
                           showTimeSelect
-                          timeFormat="p"
-                          timeIntervals={5}
+                          timeFormat="HH:mm"
+                          timeIntervals={30}
                           dateFormat="Pp"
                           selected={startDate}
                           onChange={onDateChange('startdate')}
@@ -101,8 +101,8 @@ const EventForm = props => {
                         <DatePicker
                           className="form-control"
                           showTimeSelect
-                          timeFormat="p"
-                          timeIntervals={5}
+                          timeFormat="HH:mm"
+                          timeIntervals={30}
                           dateFormat="Pp"
                           selected={endDate}
                           onChange={onDateChange('enddate')}
@@ -154,7 +154,7 @@ const EventForm = props => {
               </button>
               <button
                 type="button"
-                className="btn btn-light cancel"
+                className="btn btn-danger cancel"
                 data-dismiss="modal"
                 onClick={closeModal}
               >
