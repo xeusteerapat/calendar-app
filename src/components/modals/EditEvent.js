@@ -1,9 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import moment from 'moment';
 import EventForm from './EventForm';
 import AppContext from '../../context/App/appContext';
 
-const AddEvent = () => {
+const EditEvent = () => {
   const [color, setColor] = useState('');
   const [eventName, setEventName] = useState('');
   const [checkbox, setCheckbox] = useState(false);
@@ -12,7 +12,7 @@ const AddEvent = () => {
   const [endDate, setEndDate] = useState(new Date());
 
   const appContext = useContext(AppContext);
-  const { addEvent, events, colors } = appContext;
+  const { events, colors, selectedEvent } = appContext;
 
   const colorObj = {
     primary: '#0275d8',
@@ -21,6 +21,30 @@ const AddEvent = () => {
     warning: '#f0ad4e',
     danger: '#d9534f'
   };
+
+  useEffect(() => {
+    if (Object.keys(selectedEvent).length) {
+      setColor(selectedEvent.bgColor);
+      setEventName(selectedEvent.title);
+      setCheckbox(selectedEvent.allDay);
+
+      let start = '';
+      let end = '';
+
+      if (!selectedEvent.allDay) {
+        setShowtime(false);
+        start = `${moment(new Date(selectedEvent.start)).format()}`;
+        end = `${moment(new Date(selectedEvent.end)).format()}`;
+      } else {
+        setShowtime(true);
+        start = `${moment(new Date(selectedEvent.start)).format('YYYY-MM-DD')}`;
+        end = `${moment(new Date(selectedEvent.end)).format('YYYY-MM-DD')}`;
+      }
+      setStartDate(new Date(start));
+      setEndDate(new Date(end));
+    }
+    // eslint-disable-next-line
+  }, [selectedEvent, events]);
 
   const inputChange = e => {
     setEventName(e.target.value);
@@ -53,20 +77,7 @@ const AddEvent = () => {
     }
   };
 
-  const createEvent = () => {
-    const event = setEvent(events.length + 1);
-    addEvent(event);
-    reset();
-  };
-
-  const reset = () => {
-    setColor('');
-    setEventName('');
-    setCheckbox(false);
-    setShowtime(false);
-    setStartDate(new Date());
-    setEndDate(new Date());
-  };
+  const editEvent = () => {};
 
   const setEvent = id => {
     let start = '';
@@ -92,15 +103,13 @@ const AddEvent = () => {
     return event;
   };
 
-  const closeModal = () => {
-    reset();
-  };
+  const closeModal = () => {};
 
   return (
-    <div>
+    <>
       <EventForm
-        modalId="add-event"
-        title="Add Event"
+        modalId="edit-event"
+        title="Edit Event"
         closeModal={closeModal}
         eventName={eventName}
         inputChange={inputChange}
@@ -113,11 +122,11 @@ const AddEvent = () => {
         color={color}
         colors={colors}
         handleColorChange={handleColorChange}
-        eventType={createEvent}
-        buttonText="Save"
+        eventType={editEvent}
+        buttonText="Update"
       />
-    </div>
+    </>
   );
 };
 
-export default AddEvent;
+export default EditEvent;

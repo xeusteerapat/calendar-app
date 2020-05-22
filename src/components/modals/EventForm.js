@@ -23,7 +23,7 @@ const EventForm = props => {
   } = props;
   return (
     <div>
-      <div id={modalId} className="modal" tabIndex="-1" role="dialog">
+      <div id={modalId} className="modal fade" tabIndex="-1" role="dialog">
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
@@ -126,6 +126,7 @@ const EventForm = props => {
                     className="form-control form-white"
                     name="event-color"
                     onChange={handleColorChange}
+                    value={color}
                   >
                     <option value="">Select Color</option>
                     {colors.map(color => (
