@@ -1,4 +1,4 @@
-import { ADD_EVENT, GET_EVENTS } from '../types';
+import { ADD_EVENT, GET_EVENTS, SELECTED_EVENT } from '../types';
 
 export const rootReducer = (state, action) => {
   switch (action.type) {
@@ -11,6 +11,11 @@ export const rootReducer = (state, action) => {
       return {
         ...state,
         events: action.payload
+      };
+    case SELECTED_EVENT:
+      return {
+        ...state,
+        selectedEvent: action.payload
       };
     default:
       return state;
