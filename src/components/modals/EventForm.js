@@ -2,21 +2,41 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const EventForm = () => {
+const EventForm = props => {
+  const {
+    modalId,
+    title,
+    closeModal,
+    eventName,
+    inputChange,
+    checkbox,
+    onCheckBoxChange,
+    showtime,
+    startDate,
+    endDate,
+    onDateChange,
+    color,
+    colors,
+    handleColorChange,
+    eventType,
+    buttonText,
+    colorObj
+  } = props;
   return (
     <div>
-      <div id="add-event" className="modal" tabIndex="-1" role="dialog">
+      <div id={modalId} className="modal" tabIndex="-1" role="dialog">
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title">New Event</h5>
+              <h5 className="modal-title">{title}</h5>
               <button
                 type="button"
                 className="close"
                 data-dismiss="modal"
                 aria-label="Close"
+                onClick={closeModal}
               >
-                <span aria-hidden="true">&times;</span>
+                X
               </button>
             </div>
             <div className="modal-body p-3">
@@ -30,6 +50,8 @@ const EventForm = () => {
                     className="form-control form-white"
                     placeholder="Enter Title"
                     name="event-name"
+                    value={eventName}
+                    onChange={inputChange}
                   />
                 </div>
                 <div className="form-check">
@@ -37,6 +59,9 @@ const EventForm = () => {
                     type="checkbox"
                     className="form-check-input"
                     name="checkbox"
+                    value={checkbox}
+                    checked={checkbox}
+                    onChange={onCheckBoxChange}
                   />
                   <label htmlFor="" className="control-label">
                     All day Event? (optional)
@@ -45,51 +70,89 @@ const EventForm = () => {
                 <div className="form-group">
                   <label htmlFor="">Start</label>
                   <div className="row">
-                    <div className="col-md-12">
-                      <DatePicker
-                        showTimeSelect
-                        timeFormat="p"
-                        timeIntervals={5}
-                        dateFormat="Pp"
-                      />
-                    </div>
+                    {!showtime ? (
+                      <div className="col-md-12">
+                        <DatePicker
+                          className="form-control"
+                          showTimeSelect
+                          timeFormat="p"
+                          timeIntervals={5}
+                          dateFormat="Pp"
+                          selected={startDate}
+                          onChange={onDateChange('startdate')}
+                        />
+                      </div>
+                    ) : (
+                      <div className="col-md-12">
+                        <DatePicker
+                          className="form-control"
+                          selected={startDate}
+                          onChange={onDateChange('startdate')}
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="form-group">
                   <label htmlFor="">End</label>
                   <div className="row">
-                    <div className="col-md-12">
-                      <DatePicker
-                        showTimeSelect
-                        timeFormat="p"
-                        timeIntervals={5}
-                        dateFormat="Pp"
-                      />
-                    </div>
+                    {!showtime ? (
+                      <div className="col-md-12">
+                        <DatePicker
+                          className="form-control"
+                          showTimeSelect
+                          timeFormat="p"
+                          timeIntervals={5}
+                          dateFormat="Pp"
+                          selected={endDate}
+                          onChange={onDateChange('enddate')}
+                        />
+                      </div>
+                    ) : (
+                      <div className="col-md-12">
+                        <DatePicker
+                          className="form-control"
+                          selected={endDate}
+                          onChange={onDateChange('enddate')}
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="form-group">
                   <label htmlFor="" className="control-label">
                     Choose event tag color
                   </label>
-                  <select>
+                  <select
+                    className="form-control form-white"
+                    name="event-color"
+                    onChange={handleColorChange}
+                  >
                     <option value="">Select Color</option>
-                    <option value="">Primary</option>
-                    <option value="">Info</option>
-                    <option value="">Success</option>
-                    <option value="">Danger</option>
+                    {colors.map(color => (
+                      <option key={color} value={color.toLowerCase()}>
+                        {color}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </form>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-primary">
-                Save
+              <button
+                type="button"
+                className="btn btn-primary save"
+                data-dismiss="modal"
+                onClick={eventType}
+                disabled={!eventName || !startDate || !endDate || !color}
+              >
+                {buttonText}
               </button>
               <button
                 type="button"
-                className="btn btn-secondary"
+                className="btn btn-light cancel"
                 data-dismiss="modal"
+                onClick={closeModal}
               >
                 Close
               </button>
