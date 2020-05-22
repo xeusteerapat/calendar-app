@@ -2,7 +2,13 @@ import React, { useReducer } from 'react';
 import { rootReducer } from './appReducer';
 import AppContext from './appContext';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { ADD_EVENT, GET_EVENTS, SELECTED_EVENT, EDIT_EVENT } from '../types';
+import {
+  ADD_EVENT,
+  GET_EVENTS,
+  SELECTED_EVENT,
+  EDIT_EVENT,
+  DELETE_EVENT
+} from '../types';
 
 const AppState = ({ children }) => {
   const initialState = {
@@ -68,6 +74,22 @@ const AppState = ({ children }) => {
     });
   };
 
+  const deleteSelectedEvent = event => {
+    const updatedEvents = eventItem.filter(item => item.id !== event.id);
+
+    setEventItem(updatedEvents);
+
+    dispatch({
+      type: DELETE_EVENT,
+      payload: updatedEvents
+    });
+    // also delete selected event in localstorage
+    dispatch({
+      type: SELECTED_EVENT,
+      payload: {}
+    });
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -78,7 +100,8 @@ const AppState = ({ children }) => {
         addEvent,
         getEvents,
         selected,
-        editSelectedEvent
+        editSelectedEvent,
+        deleteSelectedEvent
       }}
     >
       {children}
