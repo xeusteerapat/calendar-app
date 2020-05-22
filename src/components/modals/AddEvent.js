@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import moment from 'moment';
 import EventForm from './EventForm';
 import AppContext from '../../context/App/appContext';
+import { v4 as uuid } from 'uuid';
 
 const AddEvent = () => {
   const [color, setColor] = useState('');
@@ -46,7 +47,7 @@ const AddEvent = () => {
   };
 
   const createEvent = () => {
-    const event = setEvent(events.length + 1);
+    const event = setEvent(uuid());
     addEvent(event);
     reset();
   };

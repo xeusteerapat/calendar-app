@@ -8,12 +8,17 @@ import AppContext from '../../context/App/appContext';
 
 const Calendar = () => {
   const appContext = useContext(AppContext);
-  const { events, getEvents } = appContext;
+  const { events, getEvents, selected } = appContext;
 
   useEffect(() => {
     getEvents();
     // eslint-disable-next-line
   }, [events]);
+
+  const handleEventClick = info => {
+    const event = events.find(e => e.id === parseInt(info.event.id, 10));
+    selected(event);
+  };
 
   return (
     <div className="col-lg-9">
@@ -27,6 +32,7 @@ const Calendar = () => {
             right: 'dayGridMonth, timeGridWeek, timeGridDay'
           }}
           events={events} // left side in full calendar props, right side are events from state
+          eventClick={handleEventClick}
         />
       </div>
     </div>
