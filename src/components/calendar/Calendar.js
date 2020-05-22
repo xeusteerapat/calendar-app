@@ -16,8 +16,10 @@ const Calendar = () => {
   }, [events]);
 
   const handleEventClick = info => {
-    const event = events.find(e => e.id === parseInt(info.event.id, 10));
+    const event = events.find(e => e.id === info.event.id);
     selected(event);
+    info.el.setAttribute('data-toggle', 'modal');
+    info.el.setAttribute('data-target', '#selection-modal');
   };
 
   return (

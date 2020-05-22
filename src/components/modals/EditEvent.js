@@ -21,7 +21,7 @@ const EditEvent = () => {
   } = appContext;
 
   useEffect(() => {
-    if (Object.keys(selectedEvent).length) {
+    if (Object.keys(selectedEvent).length > 0) {
       setColor(selectedEvent.bgColor);
       setEventName(selectedEvent.title);
       setCheckbox(selectedEvent.allDay);

@@ -13,7 +13,7 @@ const AddEvent = () => {
   const [endDate, setEndDate] = useState(new Date());
 
   const appContext = useContext(AppContext);
-  const { addEvent, events, colors, colorObj } = appContext;
+  const { addEvent, colors, colorObj } = appContext;
 
   const inputChange = e => {
     setEventName(e.target.value);
