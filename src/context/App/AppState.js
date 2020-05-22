@@ -2,13 +2,20 @@ import React, { useReducer } from 'react';
 import { rootReducer } from './appReducer';
 import AppContext from './appContext';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
-import { ADD_EVENT, GET_EVENTS, SELECTED_EVENT } from '../types';
+import { ADD_EVENT, GET_EVENTS, SELECTED_EVENT, EDIT_EVENT } from '../types';
 
 const AppState = ({ children }) => {
   const initialState = {
     events: [],
     colors: ['Primary', 'Success', 'Info', 'Warning', 'Danger'],
-    selectedEvent: {}
+    selectedEvent: {},
+    colorObj: {
+      primary: '#0275d8',
+      success: '#5cb85c',
+      info: '#5bc0de',
+      warning: '#f0ad4e',
+      danger: '#d9534f'
+    }
   };
 
   const [state, dispatch] = useReducer(rootReducer, initialState);
@@ -46,15 +53,32 @@ const AppState = ({ children }) => {
     });
   };
 
+  const editSelectedEvent = event => {
+    // we got eventItem from localstorage then map through updated event
+    const newUpdatedEvents = eventItem.map(item => {
+      return item.id === event.id ? event : item;
+    });
+
+    // then update updated event to localstorage
+    setEventItem(newUpdatedEvents);
+
+    dispatch({
+      type: EDIT_EVENT,
+      payload: newUpdatedEvents
+    });
+  };
+
   return (
     <AppContext.Provider
       value={{
         events: state.events,
         colors: state.colors,
         selectedEvent: state.selectedEvent,
+        colorObj: state.colorObj,
         addEvent,
         getEvents,
-        selected
+        selected,
+        editSelectedEvent
       }}
     >
       {children}

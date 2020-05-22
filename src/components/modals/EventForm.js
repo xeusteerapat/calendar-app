@@ -17,6 +17,7 @@ const EventForm = props => {
     onDateChange,
     color,
     colors,
+    colorObj,
     handleColorChange,
     eventType,
     buttonText
@@ -127,6 +128,9 @@ const EventForm = props => {
                     name="event-color"
                     onChange={handleColorChange}
                     value={color}
+                    style={{
+                      backgroundColor: colorObj[color]
+                    }}
                   >
                     <option value="">Select Color</option>
                     {colors.map(color => (
