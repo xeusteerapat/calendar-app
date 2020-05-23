@@ -29,7 +29,7 @@ const AppState = ({ children }) => {
 
   const [state, dispatch] = useReducer(rootReducer, initialState);
   const [eventItem, setEventItem] = useLocalStorage('events');
-  const [selectedItem, setSelectedItem] = useLocalStorage('selectedEvent');
+  const [, setSelectedItem] = useLocalStorage('selectedEvent');
   const [activeEventsItem, setActiveEventsItem] = useLocalStorage(
     'activeCalendarEvents'
   );
@@ -38,12 +38,8 @@ const AppState = ({ children }) => {
     let calendarEvents = [...state.activeCalendarEvents];
     calendarEvents.push(event);
 
-    console.log('calendar events in app state', calendarEvents);
-
     const activeEventsArray = _.uniqBy(calendarEvents, 'id');
     setActiveEventsItem(activeEventsArray);
-
-    console.log(activeEventsItem);
 
     dispatch({
       type: ACTIVE_EVENTS,
@@ -110,6 +106,16 @@ const AppState = ({ children }) => {
     dispatch({
       type: SELECTED_EVENT,
       payload: {}
+    });
+
+    const activeEventsArray = activeEventsItem.filter(
+      evt => evt.id !== event.id
+    );
+    setActiveEventsItem(activeEventsArray);
+
+    dispatch({
+      type: ACTIVE_EVENTS,
+      payload: activeEventsArray
     });
   };
 

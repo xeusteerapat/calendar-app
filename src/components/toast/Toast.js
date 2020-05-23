@@ -6,18 +6,24 @@ import './Toast.css';
 
 const Toast = () => {
   const appContext = useContext(AppContext);
-  const { activeEvents, events } = appContext;
+  const {
+    activeEvents,
+    events,
+    activeCalendarEvents,
+    deleteSelectedEvent,
+    selected
+  } = appContext;
 
   useEffect(() => {
-    addEvent();
-  }, []);
+    const interval = setInterval(() => {
+      addEvent();
+    }, 1000);
 
-  console.log(events[0]);
-  console.log(
-    'from event 0',
-    moment(new Date('2020-05-23')).format('YYYY-MM-DDTHH:ss')
-  );
-  console.log('now', moment(new Date()).format('YYYY-MM-DDTHH:ss'));
+    return () => {
+      clearInterval(interval);
+    };
+    // eslint-disable-next-line
+  }, [events]);
 
   const addEvent = () => {
     if (events.length) {
@@ -34,20 +40,31 @@ const Toast = () => {
     }
   };
 
+  // maybe it's not necessary
+  const deleteEvent = event => {
+    deleteSelectedEvent(event);
+    selected({});
+  };
+
   return (
     <>
       <div className="notification-container notification-top-right">
-        <div
-          className="notification toast"
-          style={{
-            backgroundColor: 'teal'
-          }}
-        >
-          <button>X</button>
-          <p className="notification-title">Notification Title</p>
-          <p className="notification-subtitle">Overdue 5 minutes ago</p>
-          <p className="notification-message">This is a description</p>
-        </div>
+        {activeCalendarEvents.map((evt, idx) => (
+          <div
+            key={idx}
+            className="notification toast"
+            style={{
+              backgroundColor: evt.backgroundColor
+            }}
+          >
+            <button onClick={() => deleteEvent(evt)}>X</button>
+            <p className="notification-title">{evt.title}</p>
+            <p className="notification-subtitle">
+              Overdue {moment(evt.start).fromNow()}
+            </p>
+            <p className="notification-message">{evt.description}</p>
+          </div>
+        ))}
       </div>
     </>
   );
