@@ -7,6 +7,7 @@ import { v4 as uuid } from 'uuid';
 const AddEvent = () => {
   const [color, setColor] = useState('');
   const [eventName, setEventName] = useState('');
+  const [description, setDescription] = useState('');
   const [checkbox, setCheckbox] = useState(false);
   const [showtime, setShowtime] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
@@ -16,7 +17,15 @@ const AddEvent = () => {
   const { addEvent, colors, colorObj } = appContext;
 
   const inputChange = e => {
-    setEventName(e.target.value);
+    const attrName = e.target.getAttribute('name');
+
+    if (attrName === 'event-name') {
+      setEventName(e.target.value);
+    }
+
+    if (attrName === 'description') {
+      setDescription(e.target.value);
+    }
   };
 
   const onDateChange = timeInput => event => {
@@ -55,6 +64,7 @@ const AddEvent = () => {
   const reset = () => {
     setColor('');
     setEventName('');
+    setDescription('');
     setCheckbox(false);
     setShowtime(false);
     setStartDate(new Date());
@@ -75,6 +85,7 @@ const AddEvent = () => {
     const event = {
       id,
       title: eventName,
+      description,
       start,
       end,
       allDay: checkbox,
@@ -94,6 +105,7 @@ const AddEvent = () => {
       <EventForm
         modalId="add-event"
         title="Add Event"
+        description={description}
         closeModal={closeModal}
         eventName={eventName}
         inputChange={inputChange}
