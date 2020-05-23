@@ -35,6 +35,7 @@ const Calendar = () => {
           }}
           events={events} // left side in full calendar props, right side are events from state
           eventClick={handleEventClick}
+          eventLimit="true"
         />
       </div>
     </div>

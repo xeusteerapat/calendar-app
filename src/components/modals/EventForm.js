@@ -84,27 +84,17 @@ const EventForm = props => {
                 <div className="form-group">
                   <label htmlFor="">Start</label>
                   <div className="row">
-                    {!showtime ? (
-                      <div className="col-md-12">
-                        <DatePicker
-                          className="form-control"
-                          showTimeSelect
-                          timeFormat="HH:mm"
-                          timeIntervals={30}
-                          dateFormat="Pp"
-                          selected={startDate}
-                          onChange={onDateChange('startdate')}
-                        />
-                      </div>
-                    ) : (
-                      <div className="col-md-12">
-                        <DatePicker
-                          className="form-control"
-                          selected={startDate}
-                          onChange={onDateChange('startdate')}
-                        />
-                      </div>
-                    )}
+                    <div className="col-md-12">
+                      <DatePicker
+                        className="form-control"
+                        showTimeSelect
+                        timeFormat="HH:mm"
+                        timeIntervals={30}
+                        dateFormat="Pp"
+                        selected={startDate}
+                        onChange={onDateChange('startdate')}
+                      />
+                    </div>
                   </div>
                 </div>
                 <div className="form-group">

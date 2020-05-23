@@ -28,16 +28,14 @@ const EditEvent = () => {
       setDescription(selectedEvent.description);
       setCheckbox(selectedEvent.allDay);
 
-      let start = '';
+      let start = `${moment(new Date(selectedEvent.start)).format()}`;
       let end = '';
 
       if (!selectedEvent.allDay) {
         setShowtime(false);
-        start = `${moment(new Date(selectedEvent.start)).format()}`;
         end = `${moment(new Date(selectedEvent.end)).format()}`;
       } else {
         setShowtime(true);
-        start = `${moment(new Date(selectedEvent.start)).format('YYYY-MM-DD')}`;
         end = `${moment(new Date(selectedEvent.end)).format('YYYY-MM-DD')}`;
       }
       setStartDate(new Date(start));
@@ -91,13 +89,11 @@ const EditEvent = () => {
   };
 
   const setEvent = id => {
-    let start = '';
+    let start = `${moment(startDate).format()}`;
     let end = '';
     if (!checkbox) {
-      start = `${moment(startDate).format()}`;
       end = `${moment(endDate).format()}`;
     } else {
-      start = `${moment(startDate).format('YYYY-MM-DD')}`;
       end = `${moment(endDate).format('YYYY-MM-DD')}`;
     }
 
