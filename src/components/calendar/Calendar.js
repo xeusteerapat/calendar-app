@@ -3,6 +3,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import Toast from '../toast/Toast';
 
 import AppContext from '../../context/App/appContext';
 
@@ -38,6 +39,7 @@ const Calendar = () => {
           eventLimit="true"
         />
       </div>
+      <Toast />
     </div>
   );
 };

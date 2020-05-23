@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react';
+import _ from 'lodash';
 import { rootReducer } from './appReducer';
 import AppContext from './appContext';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
@@ -7,7 +8,8 @@ import {
   GET_EVENTS,
   SELECTED_EVENT,
   EDIT_EVENT,
-  DELETE_EVENT
+  DELETE_EVENT,
+  ACTIVE_EVENTS
 } from '../types';
 
 const AppState = ({ children }) => {
@@ -15,6 +17,7 @@ const AppState = ({ children }) => {
     events: [],
     colors: ['Primary', 'Success', 'Info', 'Warning', 'Danger'],
     selectedEvent: {},
+    activeCalendarEvents: [],
     colorObj: {
       primary: '#0275d8',
       success: '#5cb85c',
@@ -27,6 +30,26 @@ const AppState = ({ children }) => {
   const [state, dispatch] = useReducer(rootReducer, initialState);
   const [eventItem, setEventItem] = useLocalStorage('events');
   const [selectedItem, setSelectedItem] = useLocalStorage('selectedEvent');
+  const [activeEventsItem, setActiveEventsItem] = useLocalStorage(
+    'activeCalendarEvents'
+  );
+
+  const activeEvents = event => {
+    let calendarEvents = [...state.activeCalendarEvents];
+    calendarEvents.push(event);
+
+    console.log('calendar events in app state', calendarEvents);
+
+    const activeEventsArray = _.uniqBy(calendarEvents, 'id');
+    setActiveEventsItem(activeEventsArray);
+
+    console.log(activeEventsItem);
+
+    dispatch({
+      type: ACTIVE_EVENTS,
+      payload: activeEventsArray
+    });
+  };
 
   const addEvent = event => {
     let userEvents = [...state.events];
@@ -96,12 +119,14 @@ const AppState = ({ children }) => {
         events: state.events,
         colors: state.colors,
         selectedEvent: state.selectedEvent,
+        activeCalendarEvents: state.activeCalendarEvents,
         colorObj: state.colorObj,
         addEvent,
         getEvents,
         selected,
         editSelectedEvent,
-        deleteSelectedEvent
+        deleteSelectedEvent,
+        activeEvents
       }}
     >
       {children}
